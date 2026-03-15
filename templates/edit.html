@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Task - TodoList</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-900 text-slate-100">
+    <div class="max-w-2xl mx-auto px-4 py-10">
+      <div class="mb-6">
+        <a href="{% url 'index' %}" class="inline-flex items-center text-sm text-slate-300 hover:text-slate-100">
+          ← Back to list
+        </a>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl shadow-xl p-6">
+        <h1 class="text-2xl font-semibold mb-4">Edit Task</h1>
+
+        <form method="POST" class="space-y-4">
+          {% csrf_token %}
+
+          <div>
+            <label class="block text-sm font-medium mb-1" for="content">Task</label>
+            <input
+              id="content"
+              type="text"
+              name="content"
+              value="{{ task.content }}"
+              class="w-full rounded-lg border border-slate-600 bg-slate-900/60 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              required
+            >
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1" for="priority">Priority</label>
+              <select
+                id="priority"
+                name="priority"
+                class="w-full rounded-lg border border-slate-600 bg-slate-900/60 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              >
+                <option value="High"{% if task.priority == "High" %} selected{% endif %}>High</option>
+                <option value="Medium"{% if task.priority == "Medium" %} selected{% endif %}>Medium</option>
+                <option value="Low"{% if task.priority == "Low" %} selected{% endif %}>Low</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1" for="due_date">Due date</label>
+              <input
+                id="due_date"
+                type="date"
+                name="due_date"
+                value="{{ task.due_date|date:'Y-m-d' }}"
+                class="w-full rounded-lg border border-slate-600 bg-slate-900/60 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-3">
+            <a
+              href="{% url 'index' %}"
+              class="inline-flex items-center justify-center rounded-lg border border-slate-600 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-slate-800/80 transition-colors"
+            >
+              Cancel
+            </a>
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium shadow hover:bg-indigo-500 transition-colors"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
